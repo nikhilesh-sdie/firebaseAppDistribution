@@ -13,13 +13,13 @@ app_id = os.getenv("app_id")
 apkEnv = os.getenv("app_env", "QA")
 version_display = os.getenv("displayVersion")
 version_build = os.getenv("buildVersion")
-print(version_build)
-raw = os.getenv("sa_key")
-print("raw type:", type(raw))
-if not raw:
-    raise RuntimeError("❌ sa_key is missing")
+# print(version_build)
+# raw = os.getenv("sa_key")
+# print("raw type:", type(raw))
+# if not raw:
+#     raise RuntimeError("❌ sa_key is missing")
 
-sa_info = json.loads(raw)
+sa_info = os.getenv("sa_key")
 print("sa type:", type(sa_info))
 
 # ---------------- AUTH ----------------
