@@ -19,7 +19,9 @@ version_build = os.getenv("buildVersion")
 # if not raw:
 #     raise RuntimeError("❌ sa_key is missing")
 
-sa_info = os.getenv("sa_key")
+#sa_info = os.getenv("sa_key")
+raw = os.getenv("sa_key")
+sa_info = json.loads(raw)
 print("sa type:", type(sa_info))
 
 # ---------------- AUTH ----------------
