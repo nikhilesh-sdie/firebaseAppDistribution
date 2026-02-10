@@ -13,7 +13,11 @@ app_id = os.getenv("app_id")
 apkEnv = os.getenv("app_env", "QA")
 version_display = os.getenv("displayVersion")
 version_build = os.getenv("buildVersion")
-sa_info = os.getenv("sa_key")
+raw = os.getenv("sa_key")
+if not raw:
+    raise RuntimeError("❌ sa_key is missing")
+
+sa_info = json.loads(raw)
 
 # ---------------- AUTH ----------------
 def auth(sa_info):
