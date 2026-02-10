@@ -1,0 +1,26 @@
+name: 'Firebase app distribution using python'
+description: 'Microsoft Teams Notification for Github Actions using python'
+author: 'nikhilesh-sdie'
+inputs:
+  project_number:
+    description: 'Number of firebase project'
+    required: true
+  app_id:
+    description: 'Id of android application'
+    required: true
+  app_env:
+    description: 'Environment of android application'
+    required: false
+  displayVersion:
+    description: 'displayVersion of android application'
+    required: false
+  buildVersion:
+    description: 'buildVersion of android application'
+    required: false  
+  sa_key:
+    description: 'Service Account key of firebase project'
+    required: true 
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
