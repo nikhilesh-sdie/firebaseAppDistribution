@@ -16,7 +16,7 @@ version_build = os.getenv("buildVersion")
 sa_info = os.getenv("sa_key")
 
 # ---------------- AUTH ----------------
-def auth():
+def auth(sa_info):
     creds = service_account.Credentials.from_service_account_info(
         sa_info, scopes=SCOPES
     )
@@ -155,7 +155,7 @@ def download_apk(service, creds, version_name, apk_name):
 
 # ---------------- MAIN ----------------
 print("Authenticating with firebase...")
-service, creds, releases = auth()
+service, creds, releases = auth(sa_info)
 print("Checking and validating configs")
 if version_display and version_build:
     version_name, apk_name = fetch_apk_by_version(releases)
