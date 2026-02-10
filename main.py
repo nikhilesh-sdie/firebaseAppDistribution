@@ -13,7 +13,7 @@ app_id = os.getenv("app_id")
 apkEnv = os.getenv("app_env", "QA")
 version_display = os.getenv("displayVersion")
 version_build = os.getenv("buildVersion")
-sa_info = json.loads(os.getenv("sa_key"))
+sa_info = os.getenv("sa_key")
 
 # ---------------- AUTH ----------------
 def auth():
