@@ -8,21 +8,58 @@ from googleapiclient.discovery import build
 # ---------------- CONFIG ----------------
 SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
 
-project_number = os.getenv("project_number")
-app_id = os.getenv("app_id")
+# project_number = os.getenv("project_number")
+# app_id = os.getenv("app_id")
+# apkEnv = os.getenv("app_env", "QA")
+# version_display = os.getenv("displayVersion")
+# version_build = os.getenv("buildVersion")
+# # print(version_build)
+# # raw = os.getenv("sa_key")
+# # print("raw type:", type(raw))
+# # if not raw:
+# #     raise RuntimeError("❌ sa_key is missing")
+
+# #sa_info = os.getenv("sa_key")
+# raw = os.getenv("sa_key")
+# sa_info = json.loads(raw)
+# print("sa type:", type(sa_info))
+
+#validation
+
+
+def must(name):
+    val = os.getenv(name)
+    print(f"{name}: {'SET' if val else 'MISSING'}")
+    return val
+
+project_number = must("project_number")
+app_id = must("app_id")
 apkEnv = os.getenv("app_env", "QA")
 version_display = os.getenv("displayVersion")
 version_build = os.getenv("buildVersion")
-# print(version_build)
-# raw = os.getenv("sa_key")
-# print("raw type:", type(raw))
-# if not raw:
-#     raise RuntimeError("❌ sa_key is missing")
 
-#sa_info = os.getenv("sa_key")
-raw = os.getenv("sa_key")
-sa_info = json.loads(raw)
-print("sa type:", type(sa_info))
+raw = must("sa_key")
+
+# Hard stop if any required value is missing
+missing = [k for k,v in {
+    "project_number": project_number,
+    "app_id": app_id,
+    "sa_key": raw
+}.items() if not v]
+
+if missing:
+    raise RuntimeError(f"❌ Missing env vars: {missing}")
+
+# Parse SA JSON
+try:
+    sa_info = json.loads(raw)
+    print("sa_key parsed OK")
+except Exception as e:
+    print("❌ sa_key JSON invalid:", e)
+    sys.exit(1)
+
+print("sa_info type:", type(sa_info))
+
 
 # ---------------- AUTH ----------------
 def auth(sa_info):
