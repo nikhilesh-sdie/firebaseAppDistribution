@@ -148,6 +148,11 @@ def download_apk(service, creds, version_name, apk_name):
 
     print(f"✅ Saved as {apk_name}")
 
+    github_env = os.getenv("GITHUB_ENV")
+    if github_env:
+        with open(github_env, "a") as f:
+            f.write(f"APK_PATH={apk_name}\n")
+
 # ---------------- MAIN ----------------
 print("Authenticating with firebase...")
 service, creds, releases = auth()
