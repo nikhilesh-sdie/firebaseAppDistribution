@@ -85,6 +85,7 @@ def fetch_apk_by_version(releases):
 
 # ---------------- FETCH BY ENV ----------------
 def fetch_latest_apk_by_env(releases):
+    r = releases
     key = apkEnv.lower()
     print(f"Fetching latest {key} apk")
     version_name = None
