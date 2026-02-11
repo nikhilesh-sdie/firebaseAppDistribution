@@ -85,14 +85,13 @@ def fetch_apk_by_version(releases):
 
 # ---------------- FETCH BY ENV ----------------
 def fetch_latest_apk_by_env(releases):
-    r = releases
     key = apkEnv.lower()
     print(f"Fetching latest {key} apk")
     version_name = None
     apk_name = None
     matching_envs = []
     for increamentor in releases:
-        note = r.get("releaseNotes", {}).get("text", "")
+        note = releases.get("releaseNotes", {}).get("text", "")
         items = [x.lower() for x in re.split(r"[|,\s]+", note.strip()) if x]
         if key in items:
             matching_envs.append(increamentor)
