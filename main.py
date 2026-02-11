@@ -89,27 +89,29 @@ def fetch_latest_apk_by_env(releases):
     print(f"Fetching latest {key} apk")
     version_name = None
     apk_name = None
-
-    for increamentor in range(len(releases)):
-        r = releases[increamentor]
+    matching_envs = []
+    for increamentor in releases:
         note = r.get("releaseNotes", {}).get("text", "")
-        print(note)
         items = [x.lower() for x in re.split(r"[|,\s]+", note.strip()) if x]
         if key in items:
-            print("-----")
-            print("📦 Latest release:", r["name"])
-            print("Version:", r.get("displayVersion"))
-            print("Build:", r.get("buildVersion"))
-            print("Created:", r.get("createTime"))
-            print("Notes:", note)
-
-            version_name = r["name"]
-            apk_name = f"{r.get('displayVersion')}({r.get('buildVersion')})"
-            break
+            matching_envs.append(increamentor)
         else:
-            print(f"⚠️ {key} apk not found, fetching latest apk...")
-            fetch_latest_apk(releases)
+            print("Searching for the matching env...")
 
+    if not matching_envs:
+        print(f"⚠️ {key} apk not found, fetching latest apk...")
+        fetch_latest_apk(releases)
+
+    r = matching_envs[0]
+    note = r.get("releaseNotes", {}).get("text", "")
+    print("-----")
+    print(f"📦 Latest {key} release:", r["name"])
+    print("Version:", r.get("displayVersion"))
+    print("Build:", r.get("buildVersion"))
+    print("Created:", r.get("createTime"))
+    print("Notes:", note)
+    version_name = r["name"]
+    apk_name = f"{r.get('displayVersion')}({r.get('buildVersion')})"
     return version_name, apk_name
 
 # ---------------- FETCH LATEST ----------------
@@ -117,22 +119,15 @@ def fetch_latest_apk(releases):
     print(f"Fetching Latest apk")
     r = releases[0]
     note = r.get("releaseNotes", {}).get("text", "")
-    key = apkEnv.lower()
-
-    items = [x.lower() for x in re.split(r"[|,\s]+", note.strip()) if x]
-
-    if key in items:
-        print("-----")
-        print("📦 Latest release:", r["name"])
-        print("Version:", r.get("displayVersion"))
-        print("Build:", r.get("buildVersion"))
-        print("Created:", r.get("createTime"))
-        print("Notes:", note)
-        version_name = r["name"]
-        apk_name = f"{r.get('displayVersion')}({r.get('buildVersion')})"
-        return version_name, apk_name
-
-    raise Exception("❌ No latest release found")
+    print("-----")
+    print("📦 Latest release:", r["name"])
+    print("Version:", r.get("displayVersion"))
+    print("Build:", r.get("buildVersion"))
+    print("Created:", r.get("createTime"))
+    print("Notes:", note)
+    version_name = r["name"]
+    apk_name = f"{r.get('displayVersion')}({r.get('buildVersion')})"
+    return version_name, apk_name
 
 # ---------------- DOWNLOAD ----------------
 def download_apk(service, creds, version_name, apk_name):
