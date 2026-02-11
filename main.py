@@ -15,15 +15,15 @@ version_display = os.getenv("displayVersion")
 version_build = os.getenv("buildVersion")
 raw = os.getenv("sa_key")
 sa_info = json.loads(raw)
-print("sa type:", type(sa_info))
 
 # ---------------- AUTH ----------------
 def auth(sa_info):
     creds = service_account.Credentials.from_service_account_info(
         sa_info, scopes=SCOPES
     )
+    print("Authenticated with firebase")
     service = build("firebaseappdistribution", "v1", credentials=creds)
-
+    print("Fetching releases")
     parent = f"projects/{project_number}/apps/{app_id}"
     releases = service.projects().apps().releases().list(parent=parent).execute()
 
